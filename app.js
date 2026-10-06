@@ -142,8 +142,7 @@
     $('drop').classList.add('busy');
 
     for (const file of arr) {
-      const looksPdf = /\.pdf$/i.test(file.name) || file.type === 'application/pdf';
-      if (!looksPdf) { toast(t('notPdf', { name: file.name }), 'error'); continue; }
+      // PDF is detected by its content (%PDF- header), not by the file name
       if (S.files.length >= MAX_FILES) { toast(t('tooMany', { max: num(MAX_FILES) }), 'error'); break; }
       if (total + file.size > MAX_BYTES) { toast(t('tooBig', { name: file.name }), 'error'); continue; }
 
