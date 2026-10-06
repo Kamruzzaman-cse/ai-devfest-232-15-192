@@ -231,10 +231,12 @@
         let score = rt.filter(w => ft.has(w)).length;
         if (ft.has(r.id.toLowerCase())) score += 3;
         const ratio = score / rt.length;
-        if (score >= 2 || ratio >= 0.5) pairs.push({ f, r, score, ratio });
+        const years = (f.name.match(/(19|20)\d{2}/g) || []).map(Number);
+        const year = years.length ? Math.max(...years) : 0;
+        if (score >= 2 || ratio >= 0.5) pairs.push({ f, r, score, ratio, year });
       });
     });
-    pairs.sort((a, b) => b.ratio - a.ratio || b.score - a.score);
+    pairs.sort((a, b) => b.ratio - a.ratio || b.score - a.score || b.year - a.year);
     let n = 0;
     for (const p of pairs) {
       if (S.matches[p.r.id] || reqOfFile(p.f.id)) continue;
